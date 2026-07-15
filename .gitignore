@@ -1,0 +1,15 @@
+# Log-Dateien
+*.log
+
+# Lokale Konfigurationen (WICHTIG!)
+.msmtprc
+msmtp.log
+
+# Backup-Dateien und Editor-Reste
+*~
+*.swp
+.DS_Store
+
+# Temporäre Dateien
+*.tmp
+
