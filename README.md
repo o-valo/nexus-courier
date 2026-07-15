@@ -38,7 +38,7 @@ Erstelle die Datei `~/.msmtprc` und passe sie an deinen SMTP-Anbieter an:
 
 ---
 
-# nexus-courier [ENG}
+# nexus-courier [ENG]
 
 `nexus-courier` is a robust bash script designed to automatically send status reports or log files from Linux servers via email. It is built to serve as a reliable courier within complex network infrastructures.
 
