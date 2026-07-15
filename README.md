@@ -82,27 +82,6 @@ passwordeval    gpg -d ~/.msmtp-password.gpg
 ### Usage
 `./nexus-courier.sh [RECIPIENT]`
 
----
-
-### Powered by AI
-
-#EOF
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ---
 
