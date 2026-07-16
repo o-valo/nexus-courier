@@ -22,6 +22,7 @@
 ### Konfiguration (.msmtprc & Sicherheit)
 Erstelle die Datei `~/.msmtprc` und passe sie an deinen SMTP-Anbieter an:
 
+```bash
 defaults
 auth            on
 tls             on
@@ -34,6 +35,8 @@ port            587
 from            deine-mail@beispiel.de
 user            dein-username
 passwordeval    gpg -d ~/.msmtp-password.gpg
+
+```
 
 *Wichtig:*
 1. Schütze die Datei: `chmod 600 ~/.msmtprc`
@@ -61,7 +64,7 @@ passwordeval    gpg -d ~/.msmtp-password.gpg
 
 ### Configuration (.msmtprc & Security)
 Create the `~/.msmtprc` file and adjust it to your SMTP provider:
-
+```bash
 defaults
 auth            on
 tls             on
@@ -74,6 +77,8 @@ port            587
 from            your-mail@example.com
 user            your-username
 passwordeval    gpg -d ~/.msmtp-password.gpg
+
+```
 
 *Important:*
 1. Secure the file: `chmod 600 ~/.msmtprc`
