@@ -54,7 +54,7 @@ passwordeval    gpg -d ~/.msmtp-password.gpg
 - **Flexible:** Recipient can be passed as a parameter during execution.
 - **Robust:** Validates dependencies (`msmtp`, `cat`) and configuration file existence before sending.
 - **Documented:** Built-in help function (`-h`).
-- **Headless-Ready:** Ideal for Ubuntu Server environments and Proxmox clusters.
+- **Headless-Ready:** Ideal for Debian / Ubuntu  environments.
 
 ### Installation & Setup
 1. Ensure `msmtp` is installed.
