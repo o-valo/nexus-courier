@@ -3,6 +3,7 @@
 
 # Lokale Konfigurationen (WICHTIG!)
 .msmtprc
+!.msmtprc-example
 
 # Passwort-Dateien ausschließen
 .msmtp_pw
