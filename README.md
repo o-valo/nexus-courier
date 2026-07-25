@@ -24,7 +24,7 @@
 ## Konfiguration (.msmtprc & Sicherheit)
 Erstelle die Datei \`~/.msmtprc\` und passe sie an deinen SMTP-Anbieter an:
 
-\`\`\`bash
+```bash
 # msmtp Konfiguration - TLS-Tunnel
 defaults
 auth           on
@@ -43,13 +43,13 @@ passwordeval   cat ~/.msmtp_pw
 
 # Setze Strato als Standard
 account default : strato
-\`\`\`
+```
 
 **Wichtig:**
 1. Schütze die Datei: \`chmod 600 ~/.msmtprc\`
 
 ### Benutzung
-\`\`\`bash
+```bash
 # Direkt ausführen (nutzt die im Skript definierten Werte)
 ./nexus-courier.sh
 
@@ -61,11 +61,11 @@ account default : strato
 
 # Per Pipe übergeben (ohne ANSI-Steuerzeichen für saubere Mails)
 curl -s http://de.wttr.in/=Berlin?T | ./nexus-courier.sh
-\`\`\`
+```
 
 ---
 # [ENG]
-\`nexus-courier\` is a robust bash script designed to automatically send status reports, log files, or piped data from Linux servers via email.
+`nexus-courier` is a robust bash script designed to automatically send status reports, log files, or piped data from Linux servers via email.
 
 ### Features
 - **Zero-Config Execution:** Simply run \`./nexus-courier.sh\` – recipient, subject, and message file are pre-configured directly inside the script.
@@ -83,7 +83,7 @@ curl -s http://de.wttr.in/=Berlin?T | ./nexus-courier.sh
 
 ### Configuration (.msmtprc & Security)
 Create the \`~/.msmtprc\` file and adjust it to your SMTP provider:
-\`\`\`bash
+```bash
 # msmtp Konfiguration - TLS-Tunnel
 defaults
 auth           on
@@ -113,7 +113,7 @@ account default : strato
 
 # Piped input (without ANSI control characters for clean emails)
 curl -s http://de.wttr.in/=Berlin?T | ./nexus-courier.sh
-\`\`\`
+```
 
 
 
