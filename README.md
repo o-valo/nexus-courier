@@ -5,25 +5,27 @@
 # Nexus-Courier
 
 ## [DE]
-`nexus-courier` ist ein robustes Bash-Skript, das entwickelt wurde, um Statusberichte oder Log-Dateien von Linux-Servern automatisiert per E-Mail zu versenden. Es ist darauf ausgelegt, in komplexen Netzwerkinfrastrukturen als zuverlässiger Bote (Courier) zu fungieren.
+\`nexus-courier\` ist ein robustes Bash-Skript, das entwickelt wurde, um Statusberichte, Log-Dateien oder Pipe-Inhalte von Linux-Servern automatisiert p>
 
 ### Funktionen
-- **Flexibel:** Empfänger kann direkt beim Aufruf als Parameter übergeben werden.
-- **Robust:** Prüft Abhängigkeiten (`msmtp`, `cat`) und die Existenz der Konfigurationsdatei vor dem Versand.
-- **Dokumentiert:** Eingebaute Hilfe-Funktion (`-h`).
-- **Headless-Ready:** Ideal für Debian/ Ubuntu Umgebungen.
+- **Zero-Config-Aufruf:** Einfach \`./nexus-courier.sh\` aufrufen – Empfänger, Betreff und Nachrichtendatei werden direkt im Skript konfiguriert.
+- **Stdin-Pipe-Support:** Nimmt Daten direkt per Pipe entgegen (z.B. \`command | nexus-courier.sh\`).
+- **Dateianhang:** Optionaler Dateianhang per \`-a\` Schalter (Multipart MIME).
+- **Erweiterter Header:** Unterstützung für \`Reply-To\`, \`Cc\` und \`Bcc\`.
+- **Robust:** Prüft Abhängigkeiten (\`msmtp\`, \`base64\`) und Konfiguration vor dem Versand.
+- **Hilfe:** Integrierte Hilfe mit \`-h\` oder \`--help\`.
 
 ### Installation & Setup
-1. Stelle sicher, dass `msmtp` installiert ist.
-2. Konfiguriere die SMTP-Verbindung über `~/.msmtprc` (siehe unten).
-3. Für eine sichere Passwortverwaltung nutze das Hilfsskript `pw-datei-erstellen.sh`, um deine verschlüsselte Konfiguration vorzubereiten.
-4. Setze Ausführungsrechte: `chmod +x nexus-courier.sh`
+1. Stelle sicher, dass \`msmtp\` installiert ist.
+2. Konfiguriere die SMTP-Verbindung über \`~/.msmtprc\` (siehe unten).
+3. Passe die Variablen direkt im Skript an (\`DEFAULT_RECIPIENT\`, \`FILE_TO_SEND\`, etc.).
+4. Setze Ausführungsrechte: \`chmod +x nexus-courier.sh\`
 
-### Konfiguration (.msmtprc & Sicherheit)
-Erstelle die Datei `~/.msmtprc` und passe sie an deinen SMTP-Anbieter an:
+## Konfiguration (.msmtprc & Sicherheit)
+Erstelle die Datei \`~/.msmtprc\` und passe sie an deinen SMTP-Anbieter an:
 
-```bash
-# msmtp Konfiguration - STARK VERSCHLÜSSELT (TLS-Tunnel)
+\`\`\`bash
+# msmtp Konfiguration - TLS-Tunnel
 defaults
 auth           on
 tls            on
@@ -37,45 +39,52 @@ host           smtp.strato.de
 port           465
 from           DEINE_EMAIL_ADRESSE
 user           DEIN_BENUTZERNAME
-# Hier liest msmtp das Passwort direkt aus der isolierten Datei
 passwordeval   cat ~/.msmtp_pw
 
 # Setze Strato als Standard
 account default : strato
+\`\`\`
 
-
-
-
-```
-
-*Wichtig:*
-1. Schütze die Datei: `chmod 600 ~/.msmtprc`
-2. Nutze `./pw-datei-erstellen.sh`, um dein Passwort in `~/.msmtp-password.gpg` zu speichern, damit es nicht im Klartext in der Konfiguration liegt.
+**Wichtig:**
+1. Schütze die Datei: \`chmod 600 ~/.msmtprc\`
 
 ### Benutzung
-`./nexus-courier.sh [EMPFÄNGER]`
+\`\`\`bash
+# Direkt ausführen (nutzt die im Skript definierten Werte)
+./nexus-courier.sh
+
+# Alternativ: Empfänger beim Aufruf überschreiben
+./nexus-courier.sh ziel@beispiel.de
+
+# Mit zusätzlichem Dateianhang
+./nexus-courier.sh -a /pfad/zur/datei.zip
+
+# Per Pipe übergeben (ohne ANSI-Steuerzeichen für saubere Mails)
+curl -s http://de.wttr.in/=Berlin?T | ./nexus-courier.sh
+\`\`\`
 
 ---
-
-## [ENG]
-`nexus-courier` is a robust bash script designed to automatically send status reports or log files from Linux servers via email. It is built to serve as a reliable courier within complex network infrastructures.
+# [ENG]
+\`nexus-courier\` is a robust bash script designed to automatically send status reports, log files, or piped data from Linux servers via email.
 
 ### Features
-- **Flexible:** Recipient can be passed as a parameter during execution.
-- **Robust:** Validates dependencies (`msmtp`, `cat`) and configuration file existence before sending.
-- **Documented:** Built-in help function (`-h`).
-- **Headless-Ready:** Ideal for Debian / Ubuntu  environments.
+- **Zero-Config Execution:** Simply run \`./nexus-courier.sh\` – recipient, subject, and message file are pre-configured directly inside the script.
+- **Stdin Pipe Support:** Accept data directly via pipe (e.g., \`command | nexus-courier.sh\`).
+- **Attachments:** Optional file attachment via \`-a\` flag (Multipart MIME).
+- **Extended Headers:** Support for \`Reply-To\`, \`Cc\`, and \`Bcc\`.
+- **Robust:** Validates dependencies (\`msmtp\`, \`base64\`) and configuration existence before sending.
+- **Help:** Built-in help function via \`-h\` or \`--help\`.
 
 ### Installation & Setup
-1. Ensure `msmtp` is installed.
-2. Configure the SMTP connection via `~/.msmtprc` (see below).
-3. For secure password management, use the helper script `pw-datei-erstellen.sh` to prepare your encrypted configuration.
-4. Set execution permission: `chmod +x nexus-courier.sh`
+1. Ensure \`msmtp\` is installed.
+2. Configure the SMTP connection via \`~/.msmtprc\` (see below).
+3. Adjust variables directly within the script (\`DEFAULT_RECIPIENT\`, \`FILE_TO_SEND\`, etc.).
+4. Set execution permission: \`chmod +x nexus-courier.sh\`
 
 ### Configuration (.msmtprc & Security)
-Create the `~/.msmtprc` file and adjust it to your SMTP provider:
-```bash
-# msmtp Konfiguration - STARK VERSCHLÜSSELT (TLS-Tunnel)
+Create the \`~/.msmtprc\` file and adjust it to your SMTP provider:
+\`\`\`bash
+# msmtp Konfiguration - TLS-Tunnel
 defaults
 auth           on
 tls            on
@@ -83,31 +92,29 @@ tls_starttls   off
 tls_certcheck  on
 logfile        ~/.msmtp.log
 
-# Strato Account
-account        strato
-host           smtp.strato.de
-port           465
-from           DEINE_EMAIL_ADRESSE
-user           DEIN_BENUTZERNAME
-# Hier liest msmtp das Passwort direkt aus der isolierten Datei
-passwordeval   cat ~/.msmtp_pw
 
 # Setze Strato als Standard
 account default : strato
-#EOF
+\`\`\`
 
-```
-
-*Important:*
-1. Secure the file: `chmod 600 ~/.msmtprc`
-2. Use `./pw-datei-erstellen.sh` to save your password in `~/.msmtp-password.gpg` to avoid storing plain text passwords in your configuration.
+**Important:**
+1. Secure the file: \`chmod 600 ~/.msmtprc\`
 
 ### Usage
-`./nexus-courier.sh [RECIPIENT]`
+\`\`\`bash
+# Direct execution (uses values defined in the script)
+./nexus-courier.sh
+
+# Alternatively: Override recipient on the fly
+./nexus-courier.sh target@example.com
+
+# With additional attachment
+./nexus-courier.sh -a /path/to/file.zip
+
+# Piped input (without ANSI control characters for clean emails)
+curl -s http://de.wttr.in/=Berlin?T | ./nexus-courier.sh
+\`\`\`
 
 
----
 
-### Powered by AI
 
-#EOF
