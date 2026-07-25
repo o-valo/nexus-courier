@@ -138,7 +138,7 @@ With additional attachment
 Piped input (without ANSI control characters for clean emails)
 Bash
 
-`curl -s http://de.wttr.in/=Berlin?T](http://de.wttr.in/=Berlin?T | ./nexus-courier.sh`
+`curl -s http://de.wttr.in/=Berlin?T | ./nexus-courier.sh`
 
 
 #### powerd with ai
