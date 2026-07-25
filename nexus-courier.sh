@@ -1,5 +1,5 @@
 #!/bin/bash
-## Version 1.1.10
+## Version 1.1.0
 
 # nexus-courier - Automatisierter Mail-Versand
 # Konfiguration - Bitte anpassen
