@@ -7,9 +7,9 @@
 
 # nexus-courier - Automatisierter Mail-Versand
 # Konfiguration - Bitte anpassen
-DEFAULT_RECIPIENT="info-bot@milze.net"
+DEFAULT_RECIPIENT="your@email.comt"
 ACCOUNT="strato"
-SUBJECT="Die Antwort auf Ihre Frage an den Bot  "
+SUBJECT="Ich bin ein SUBJECT  :-)   "
 
 # Optionale erweiterte Header-Felder (leer lassen, wenn nicht benötigt)
 REPLY_TO=""
@@ -17,7 +17,7 @@ CC=""
 BCC=""
 
 # Konfiguration für Dateien
-FILE_TO_SEND="/home/olav/progs/nexus-courier/lebenszeichen.txt"
+FILE_TO_SEND="/home/user/progs/nexus-courier/lebenszeichen.txt"
 ATTACHMENT_FILE=""
 
 # System-Konfiguration
