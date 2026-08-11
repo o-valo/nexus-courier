@@ -80,8 +80,7 @@ chmod 600 ~/.msmtprc
 #### Per Pipe übergeben
 ```bash
 curl -s "wttr.in/Berlin?T" | ./nexus-courier.sh -s "Weather Update"
-
----
+```
 
 ![Bash](https://img.shields.io/badge/language-bash-blue)
 ![Automation](https://img.shields.io/badge/topic-automation-green)
