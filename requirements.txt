@@ -1,0 +1,1 @@
+msmtp          # Leichtgewichtiger SMTP-Client für den E-Mail-Versand
