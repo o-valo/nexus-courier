@@ -1,11 +1,15 @@
 #!/bin/bash
-## Version 1.1.0
+# ==============================================================================
+# Dateiname: nexus-courier.sh
+# Pfad: ~/progs/nexus-courier/nexus-courier.sh
+# Version: 1.2.2
+# ==============================================================================
 
 # nexus-courier - Automatisierter Mail-Versand
 # Konfiguration - Bitte anpassen
-DEFAULT_RECIPIENT="DEIN_EMPFAENGER@beispiel.de"
-ACCOUNT="dein_account_name"
-SUBJECT="Statusbericht von $(hostname)"
+DEFAULT_RECIPIENT="info-bot@milze.net"
+ACCOUNT="strato"
+SUBJECT="Die Antwort auf Ihre Frage an den Bot  "
 
 # Optionale erweiterte Header-Felder (leer lassen, wenn nicht benötigt)
 REPLY_TO=""
@@ -13,7 +17,7 @@ CC=""
 BCC=""
 
 # Konfiguration für Dateien
-FILE_TO_SEND="/home/USER/PFAD/ZU/DEINER/NACHRICHT.log"
+FILE_TO_SEND="/home/olav/progs/nexus-courier/lebenszeichen.txt"
 ATTACHMENT_FILE=""
 
 # System-Konfiguration
@@ -30,20 +34,31 @@ show_help() {
     echo "  Optional kann eine separate Datei als echter Dateianhang mitgeschickt werden."
     echo ""
     echo "Optionen:"
+    echo "  -s <betreff>    Überschreibt den Standard-Betreff"
     echo "  -a <datei>      Fügt eine separate Datei als MIME-Anhang hinzu"
     echo "  -h, --help      Zeigt diese Hilfe an"
-    echo "  [EMPFÄNGER]     Optionale E-Mail-Adresse. Standard: DEINE@MAIL.DE"
+    echo "  [EMPFÄNGER]     Optionale E-Mail-Adresse. Standard: $DEFAULT_RECIPIENT"
     exit 0
 }
 
-# Manuelles Argument-Parsing für -h, --help und -a
+# Manuelles Argument-Parsing
 RECIPIENT=""
 CLI_ATTACHMENT=""
+CLI_SUBJECT=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -h|--help)
             show_help
+            ;;
+        -s)
+            if [ -n "${2:-}" ]; then
+                CLI_SUBJECT="$2"
+                shift 2
+            else
+                echo "Fehler: Option -s erfordert einen Betreff." >&2
+                exit 1
+            fi
             ;;
         -a)
             if [ -n "${2:-}" ]; then
@@ -68,8 +83,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 RECIPIENT=${RECIPIENT:-$DEFAULT_RECIPIENT}
-
-# CLI-Anhang hat Vorrang, ansonsten wird die feste Variable genutzt
+SUBJECT="${CLI_SUBJECT:-$SUBJECT}"
 ATTACHMENT_FILE="${CLI_ATTACHMENT:-$ATTACHMENT_FILE}"
 
 # Prüfe auf fehlende Abhängigkeiten
@@ -130,24 +144,23 @@ BOUNDARY="----=_NexusCourierBoundary_$(date +%s%N)"
         echo "$MAIL_BODY"
         echo ""
         echo "--$BOUNDARY"
-
-        FILE_NAME=$(basename "$ATTACHMENT_FILE")
-        echo "Content-Type: application/octet-stream; name=\"$FILE_NAME\""
+        echo "Content-Type: application/octet-stream; name=\"$(basename "$ATTACHMENT_FILE")\""
         echo "Content-Transfer-Encoding: base64"
-        echo "Content-Disposition: attachment; filename=\"$FILE_NAME\""
+        echo "Content-Disposition: attachment; filename=\"$(basename "$ATTACHMENT_FILE")\""
         echo ""
         base64 "$ATTACHMENT_FILE"
         echo ""
         echo "--$BOUNDARY--"
     else
-        # Reiner Standard-Modus: Nur Nachricht (stdin/Datei) im Textkörper
+        # Modus: Nur Text (stdin/Datei) als E-Mail-Body
         echo "Content-Type: text/plain; charset=utf-8"
+        echo "Content-Transfer-Encoding: 8bit"
         echo ""
         echo "$MAIL_BODY"
     fi
 } > "$TEMP_MAIL"
 
-msmtp -a "$ACCOUNT" -t < "$TEMP_MAIL"
+# Versand via msmtp ausführen
+msmtp -a "$ACCOUNT" "$RECIPIENT" < "$TEMP_MAIL"
 
-# powered by ai
 #EOF
